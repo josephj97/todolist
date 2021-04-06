@@ -20,6 +20,11 @@ Route::post('task','TaskController@store');
 Route::put('task/{id}','TaskController@update');
 Route::delete('task/{id}','TaskController@delete');
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group([
+    'middleware'=>'api',
+    'prefix' => 'auth'
+], function($router){
+    Route::post('login','AuthController@login');
+    Route::post('register','AuthController@register');
+    Route::post('logout', 'AuthController@logout');
 });
