@@ -21,10 +21,10 @@ Route::put('task/{id}','TaskController@update');
 Route::delete('task/{id}','TaskController@delete');
 
 Route::group([
-    'middleware'=>'api',
-    'prefix' => 'auth'
+    'middleware'=>'api'
 ], function($router){
     Route::post('login','AuthController@login');
     Route::post('register','AuthController@register');
     Route::post('logout', 'AuthController@logout');
+    Route::get('user-profile', 'AuthController@userProfile');
 });
