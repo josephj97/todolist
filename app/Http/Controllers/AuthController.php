@@ -25,7 +25,6 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed|min:6',
         ]);
         if($validator->fails()){
-//            echo $request->email;
             return response()->json
             ($validator->errors(),400);
         }
@@ -44,25 +43,22 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required|string|min:6',
         ]);
-//        $credentials = $request->only(['email', 'password']);
-
         if($validator->fails()){
             return response()->json($validator->errors(), 422);
         }
         if(!$token = auth()->attempt($validator->validated())){
             return response()->json(['error'=>'Unauthorized'], 401);
         }
-
-//        if(!$token = auth()->attempt($credentials)){
-//            return response()->json(['error'=>'Unauthorized'], 401);
-//        }
-
         return $this->respondWithToken($token);
     }
 
     public function logout(){
         auth()->logout();
         return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    public function userProfile(){
+        return response()->json(auth()->user());
     }
 
     protected function respondWithToken($token){
